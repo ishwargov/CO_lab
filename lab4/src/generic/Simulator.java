@@ -28,6 +28,21 @@ public class Simulator {
 		 *     x1 = 65535
 		 *     x2 = 65535
 		 */
+		DataInputStream in = new DataInputStream(new FileInputStream(assemblyProgramFile));
+		try {
+			int i=0;
+			MainMemory mainMemory;
+			mainMemory = new MainMemory();
+    		while (true){
+   		     	mainMemory.setWord(i,in.readInt());
+				i++;
+			}
+		}catch (EOFException ignored) {
+    		;
+		}
+		in.close();
+		processor.setMainMemory(mainMemory);
+		
 	}
 	
 	public static void simulate()
