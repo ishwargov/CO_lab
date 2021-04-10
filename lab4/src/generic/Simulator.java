@@ -2,6 +2,7 @@ package generic;
 
 import processor.Clock;
 import processor.Processor;
+import processor.*;
 
 public class Simulator {
 		
@@ -29,16 +30,25 @@ public class Simulator {
 		 *     x2 = 65535
 		 */
 		DataInputStream infile = new DataInputStream(new FileInputStream(assemblyProgramFile));
-		main_mem = new MainMemory();
+		MainMemory main_mem = new MainMemory();
+		int i=0;
+		int pc;
+		pc = infile.readInt();
+		for(i=0;i<pc;i++){
+			main_mem.set_word(i,infile.readInt())
+		}
 		try{
-			int i=0;
 			while(1){
 				main_mem.setWord(i,infile.readInt());
 				i++;
 			}
-		}catch (EOFException ignored){;}
+		}catch (EOFException ignored){}
 		infile.close();
 		processor.setMainMemory(main_mem);
+		RegisterFile reg = new RegisterFile();
+		reg.setProgramCounter(pc);
+		reg.setValue(1,65535);
+		reg.setValue(1,65535);
 
 	}
 	
