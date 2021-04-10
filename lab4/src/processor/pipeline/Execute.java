@@ -19,6 +19,17 @@ public class Execute {
 	public void performEX()
 	{
 		//TODO
+		if(EX_EnableLatch.isEX_enable())
+		{
+			int currentPC = containingProcessor.getRegisterFile().getProgramCounter();
+			int newInstruction = containingProcessor.getMainMemory().getWord(currentPC);
+			IF_OF_Latch.setInstruction(newInstruction);
+			containingProcessor.getRegisterFile().setProgramCounter(currentPC + 1);
+			
+			EX_EnableLatch.setIF_enable(false);
+			EX_MA_Latch.setOF_enable(true);
+		}
+		//
 	}
 
 }

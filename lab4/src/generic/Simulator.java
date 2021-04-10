@@ -28,7 +28,7 @@ public class Simulator {
 		 *     x1 = 65535
 		 *     x2 = 65535
 		 */
-		DataInputStream in = new DataInputStream(new FileInputStream(assemblyProgramFile));
+		/*DataInputStream in = new DataInputStream(new FileInputStream(assemblyProgramFile));
 		try {
 			int i=0;
 			MainMemory mainMemory;
@@ -41,8 +41,8 @@ public class Simulator {
     		;
 		}
 		in.close();
-		processor.setMainMemory(mainMemory);
-		
+		processor.setMainMemory(mainMemory);*/
+		DataInputStream in = new DataInputStream(new FileInputStream(assemblyProgramFile))
 	}
 	
 	public static void simulate()
