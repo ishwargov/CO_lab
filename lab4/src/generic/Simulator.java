@@ -48,7 +48,7 @@ public class Simulator {
 		RegisterFile reg = new RegisterFile();
 		reg.setProgramCounter(pc);
 		reg.setValue(1,65535);
-		reg.setValue(1,65535);
+		reg.setValue(2,65535);
 
 	}
 	
