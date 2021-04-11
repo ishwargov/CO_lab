@@ -58,7 +58,8 @@ public class Simulator {
 	{	
 		int num_inst = 0;
 		while(simulationComplete == false)
-		{
+		{	
+			System.out.println(processor.getRegisterFile().getContentsAsString());
 			processor.getIFUnit().performIF();
 			Clock.incrementClock();
 			processor.getOFUnit().performOF();
@@ -75,8 +76,8 @@ public class Simulator {
 		
 		// TODO
 		// set statistics
-		//Statistics.setNumberOfInstructions(num_inst);
-		//Statistics.setNumberOfCycles(Clock.getCurrentTime());
+		Statistics.setNumberOfInstructions(num_inst);
+		Statistics.setNumberOfCycles((int)Clock.getCurrentTime());
 	}
 	
 	public static void setSimulationComplete(boolean value)
