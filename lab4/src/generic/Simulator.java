@@ -50,6 +50,7 @@ public class Simulator {
 		reg.setProgramCounter(pc);
 		reg.setValue(1,65535);
 		reg.setValue(2,65535);
+		processor.setRegisterFile(reg);
 
 	}
 	
