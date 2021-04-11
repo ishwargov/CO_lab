@@ -33,28 +33,28 @@ public class OperandFetch {
 					OF_EX_Latch.set_instype(1); 
 					OF_EX_Latch.set_rs1(containingProcessor.getRegisterFile().getValue(((inst<<5)>>>27)));
 					OF_EX_Latch.set_rd((inst<<10)>>>27);
-					OF_EX_Latch.set_imm((inst<<15)>>>15);
+					OF_EX_Latch.set_imm((inst<<15)>>15);
 					OF_EX_Latch.set_opcode(opcode);
 				}
 			}
 			else if(opcode==24||opcode==29){ // end jmp
 				OF_EX_Latch.set_instype(2);
 				OF_EX_Latch.set_rd(containingProcessor.getRegisterFile().getValue(((inst<<5)>>>27)));
-				OF_EX_Latch.set_imm((inst<<10)>>>10);
+				OF_EX_Latch.set_imm((inst<<10)>>10);
 				OF_EX_Latch.set_opcode(opcode);
 			}
 			else if(opcode==23){	//store
 				OF_EX_Latch.set_instype(1);
 				OF_EX_Latch.set_rs1(containingProcessor.getRegisterFile().getValue(((inst<<5)>>>27)));
 				OF_EX_Latch.set_rd(containingProcessor.getRegisterFile().getValue(((inst<<10)>>>27)));
-				OF_EX_Latch.set_imm((inst<<15)>>>15);
+				OF_EX_Latch.set_imm((inst<<15)>>15);
 				OF_EX_Latch.set_opcode(opcode);
 			}
 			else{	//bgt beq load
 				OF_EX_Latch.set_instype(1);
 				OF_EX_Latch.set_rs1(containingProcessor.getRegisterFile().getValue(((inst<<5)>>>27)));
 				OF_EX_Latch.set_rd((inst<<10)>>>27);
-				OF_EX_Latch.set_imm((inst<<15)>>>15);
+				OF_EX_Latch.set_imm((inst<<15)>>15);
 				OF_EX_Latch.set_opcode(opcode);
 			}
 			OF_EX_Latch.set_pc(containingProcessor.getRegisterFile().getProgramCounter()-1);

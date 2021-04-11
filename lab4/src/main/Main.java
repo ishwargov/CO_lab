@@ -19,7 +19,7 @@ public class Main {
 		Processor processor = new Processor();
 		
 		Simulator.setupSimulation(args[2], processor);
-		// Simulator.simulate();
+		Simulator.simulate();
 		
 		processor.printState(0, 100); // ((0, 0) refers to the range of main memory addresses we wish to print. this is an empty set.
 		

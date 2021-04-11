@@ -1,4 +1,6 @@
 package processor.pipeline;
+import processor.pipeline.RegisterFile;
+import org.graalvm.compiler.lir.Opcode;
 
 import generic.Simulator;
 import processor.Processor;
@@ -22,7 +24,19 @@ public class RegisterWrite {
 			//TODO
 			
 			// if instruction being processed is an end instruction, remember to call Simulator.setSimulationComplete(true);
-			
+			int opcode=MA_RW_Latch.get_opcode();
+			int res=MA_RW_Latch.get_res();
+			int rd=MA_RW_Latch.get_rd();
+			if(opcode==29){
+				IF_EnableLatch.setIF_enable(false);
+				MA_RW_Latch.setRW_enable(false);
+				Simulator.setSimulationComplete(true);
+			}
+			if(opcode<=22){
+				RegisterFile registerFile=containingProcessor.getRegisterFile();
+				registerFile.setValue(rd, res);
+				containingProcessor.setRegisterFile(registerFile);
+			}
 			MA_RW_Latch.setRW_enable(false);
 			IF_EnableLatch.setIF_enable(true);
 		}

@@ -56,7 +56,7 @@ public class OF_EX_LatchType {
 	public void set_opcode(int op){
 		this.opcode = op;
 	}
-	public int get_opcode(int op){
+	public int get_opcode(){
 		return(opcode);
 	}
 

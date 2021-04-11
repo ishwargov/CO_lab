@@ -3,7 +3,7 @@ package processor.pipeline;
 public class EX_MA_LatchType {
 	
 	boolean MA_enable;
-	int rd,pc,res;
+	int rd,pc,res,inst;
 	
 	public EX_MA_LatchType()
 	{
@@ -26,19 +26,19 @@ public class EX_MA_LatchType {
 	public void set_res(int op){
 		this.res = op;
 	}
-	public void set_inst(int op){
+	public void set_opcode(int op){
 		this.inst = op;
 	}
 	public int get_rd(){
 		return this.rd;
 	}
-	public int get_rd(){
+	public int get_pc(){
 		return this.pc;
 	}
-	public int get_rd(){
+	public int get_res(){
 		return this.res;
 	}
-	public int get_rd(){
+	public int get_opcode(){
 		return this.inst;
 	}
 }
