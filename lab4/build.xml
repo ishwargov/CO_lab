@@ -35,7 +35,7 @@
     </target>
     <target name="make-jar" depends="build">
         <mkdir dir="jars"/>
-        <jar destfile="jars/assembler.jar" basedir="bin">
+        <jar destfile="jars/processor.jar" basedir="bin">
             <manifest>
                 <attribute name="Main-Class" value="main.Main"/>
             </manifest>

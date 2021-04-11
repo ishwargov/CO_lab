@@ -3,7 +3,7 @@ package processor.pipeline;
 public class OF_EX_LatchType {
 	
 	boolean EX_enable;
-	int rs1,rs2,rd,imm,pc,type;
+	int rs1,rs2,rd,imm,pc,type,opcode;
 	
 	public OF_EX_LatchType()
 	{

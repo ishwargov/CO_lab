@@ -57,7 +57,7 @@ public class OperandFetch {
 				OF_EX_Latch.set_imm((inst<<15)>>>15);
 				OF_EX_Latch.set_opcode(opcode);
 			}
-			OF_EX_Latch.set_pc(containingProcessor.getRegisterFile().getProgramCounter()-1)
+			OF_EX_Latch.set_pc(containingProcessor.getRegisterFile().getProgramCounter()-1);
 			IF_OF_Latch.setOF_enable(false);
 			OF_EX_Latch.setEX_enable(true);
 		}
