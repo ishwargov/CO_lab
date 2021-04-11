@@ -20,6 +20,7 @@ public class Execute {
 	{
 		//TODO
 		if(OF_EX_Latch.isEX_enable()){
+			System.out.println("EX ");
 			int opcode=OF_EX_Latch.get_opcode();
 			int res=0;
 			switch(opcode){
@@ -134,6 +135,7 @@ public class Execute {
 			EX_MA_Latch.set_opcode(opcode);
 			if(opcode>=24&&opcode<=28){
 				EX_IF_Latch.setIF_enable(true);
+				EX_MA_Latch.setMA_enable(true);
 			}
 			else{
 				EX_MA_Latch.setMA_enable(true);

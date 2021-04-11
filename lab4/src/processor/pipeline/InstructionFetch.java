@@ -20,7 +20,8 @@ public class InstructionFetch {
 	public void performIF()
 	{
 		if(IF_EnableLatch.isIF_enable())
-		{
+		{	
+			System.out.println("IF ");
 			int currentPC = containingProcessor.getRegisterFile().getProgramCounter();
 			int newInstruction = containingProcessor.getMainMemory().getWord(currentPC);
 			IF_OF_Latch.setInstruction(newInstruction);

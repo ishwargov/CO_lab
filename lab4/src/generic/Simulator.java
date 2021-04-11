@@ -70,6 +70,7 @@ public class Simulator {
 			processor.getRWUnit().performRW();
 			Clock.incrementClock();
 			num_inst++;
+			
 		}
 		
 		// TODO

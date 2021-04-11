@@ -19,6 +19,7 @@ public class OperandFetch {
 		if(IF_OF_Latch.isOF_enable())
 		{
 			//TODO
+			System.out.println("OF ");
 			int inst = this.IF_OF_Latch.getInstruction();
 			int opcode = inst>>>27;
 			if(opcode>=0&&opcode<=21){

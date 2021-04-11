@@ -23,7 +23,7 @@ public class Main {
 		
 		processor.printState(0, 100); // ((0, 0) refers to the range of main memory addresses we wish to print. this is an empty set.
 		
-		// Statistics.printStatistics(args[1]);
+		//Statistics.printStatistics(args[1]);
 	}
 
 }
