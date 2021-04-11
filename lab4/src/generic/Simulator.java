@@ -2,14 +2,16 @@ package generic;
 
 import processor.Clock;
 import processor.Processor;
-import processor.*;
+import processor.memorysystem.MainMemory;
+import processor.pipeline.RegisterFile;
+import java.io.*;
 
 public class Simulator {
 		
 	static Processor processor;
 	static boolean simulationComplete;
 	
-	public static void setupSimulation(String assemblyProgramFile, Processor p)
+	public static void setupSimulation(String assemblyProgramFile, Processor p) throws FileNotFoundException,IOException
 	{
 		Simulator.processor = p;
 		loadProgram(assemblyProgramFile);
@@ -17,7 +19,7 @@ public class Simulator {
 		simulationComplete = false;
 	}
 	
-	static void loadProgram(String assemblyProgramFile)
+	static void loadProgram(String assemblyProgramFile) throws FileNotFoundException,IOException
 	{
 		/*
 		 * TODO
@@ -32,13 +34,12 @@ public class Simulator {
 		DataInputStream infile = new DataInputStream(new FileInputStream(assemblyProgramFile));
 		MainMemory main_mem = new MainMemory();
 		int i=0;
-		int pc;
-		pc = infile.readInt();
+		int pc=infile.readInt();
 		for(i=0;i<pc;i++){
-			main_mem.set_word(i,infile.readInt())
+			main_mem.setWord(i,infile.readInt());
 		}
 		try{
-			while(1){
+			while(true){
 				main_mem.setWord(i,infile.readInt());
 				i++;
 			}
@@ -53,7 +54,8 @@ public class Simulator {
 	}
 	
 	public static void simulate()
-	{
+	{	
+		int num_inst = 0;
 		while(simulationComplete == false)
 		{
 			processor.getIFUnit().performIF();
@@ -66,10 +68,13 @@ public class Simulator {
 			Clock.incrementClock();
 			processor.getRWUnit().performRW();
 			Clock.incrementClock();
+			num_inst++;
 		}
 		
 		// TODO
 		// set statistics
+		//Statistics.setNumberOfInstructions(num_inst);
+		//Statistics.setNumberOfCycles(Clock.getCurrentTime());
 	}
 	
 	public static void setSimulationComplete(boolean value)

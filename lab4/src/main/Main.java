@@ -4,10 +4,11 @@ import generic.Misc;
 import generic.Statistics;
 import processor.Processor;
 import generic.Simulator;
+import java.io.*;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException,IOException{
 		if(args.length != 3)
 		{
 			Misc.printErrorAndExit("usage: java -jar <path-to-jar-file> <path-to-config-file> <path-to-stat-file> <path-to-object-file>\n");
@@ -18,11 +19,11 @@ public class Main {
 		Processor processor = new Processor();
 		
 		Simulator.setupSimulation(args[2], processor);
-		Simulator.simulate();
+		// Simulator.simulate();
 		
-		processor.printState(0, 10); // ((0, 0) refers to the range of main memory addresses we wish to print. this is an empty set.
+		 processor.printState(0, 10); // ((0, 0) refers to the range of main memory addresses we wish to print. this is an empty set.
 		
-		Statistics.printStatistics(args[1]);
+		// Statistics.printStatistics(args[1]);
 	}
 
 }
