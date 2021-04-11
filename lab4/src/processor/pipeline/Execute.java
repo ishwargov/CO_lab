@@ -20,7 +20,7 @@ public class Execute {
 	{
 		//TODO
 		if(OF_EX_Latch.isEX_enable()){
-			System.out.println("EX ");
+			//System.out.println("EX ");
 			int opcode=OF_EX_Latch.get_opcode();
 			int res=0;
 			switch(opcode){
@@ -101,6 +101,7 @@ public class Execute {
 					containingProcessor.getRegisterFile().setProgramCounter((OF_EX_Latch.get_pc()+OF_EX_Latch.get_rd()+OF_EX_Latch.get_imm())%(1<<22));
 					break;
 				case 25:
+					//System.out.printf("%d %d",OF_EX_Latch.get_rd(),OF_EX_Latch.get_rs1());
 					if(OF_EX_Latch.get_rd()==OF_EX_Latch.get_rs1()){
 						containingProcessor.getRegisterFile().setProgramCounter(OF_EX_Latch.get_pc()+OF_EX_Latch.get_imm());
 					}
@@ -111,12 +112,12 @@ public class Execute {
 					}
 					break;
 				case 27:
-					if(OF_EX_Latch.get_rd()<=OF_EX_Latch.get_rs1()){
+					if(OF_EX_Latch.get_rd()>OF_EX_Latch.get_rs1()){
 						containingProcessor.getRegisterFile().setProgramCounter(OF_EX_Latch.get_pc()+OF_EX_Latch.get_imm());
 					}
 					break;
 				case 28:
-					if(OF_EX_Latch.get_rd()>=OF_EX_Latch.get_rs1()){
+					if(OF_EX_Latch.get_rd()<OF_EX_Latch.get_rs1()){
 						containingProcessor.getRegisterFile().setProgramCounter(OF_EX_Latch.get_pc()+OF_EX_Latch.get_imm());
 					}
 					break;
@@ -133,7 +134,7 @@ public class Execute {
 			}
 			EX_MA_Latch.set_pc(OF_EX_Latch.get_pc());
 			EX_MA_Latch.set_opcode(opcode);
-			if(opcode>=24&&opcode<=28){
+			if(opcode>=24 && opcode<=28){
 				EX_IF_Latch.setIF_enable(true);
 				EX_MA_Latch.setMA_enable(true);
 			}

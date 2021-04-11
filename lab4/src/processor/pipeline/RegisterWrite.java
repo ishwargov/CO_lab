@@ -22,7 +22,7 @@ public class RegisterWrite {
 		if(MA_RW_Latch.isRW_enable())
 		{	
 			//TODO
-			System.out.println("RW ");
+			//System.out.println("RW ");
 			// if instruction being processed is an end instruction, remember to call Simulator.setSimulationComplete(true);
 			int opcode=MA_RW_Latch.get_opcode();
 			int res=MA_RW_Latch.get_res();
@@ -31,7 +31,7 @@ public class RegisterWrite {
 				IF_EnableLatch.setIF_enable(false);
 				MA_RW_Latch.setRW_enable(false);
 				Simulator.setSimulationComplete(true);
-				System.out.println("Program Ended");
+				//System.out.println("Program Ended");
 			}
 			if(opcode<=22){
 				RegisterFile registerFile=containingProcessor.getRegisterFile();
