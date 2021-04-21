@@ -7,12 +7,14 @@ public class MemoryAccess {
 	Processor containingProcessor;
 	EX_MA_LatchType EX_MA_Latch;
 	MA_RW_LatchType MA_RW_Latch;
+	IF_OF_LatchType IF_OF_Latch;
 	
-	public MemoryAccess(Processor containingProcessor, EX_MA_LatchType eX_MA_Latch, MA_RW_LatchType mA_RW_Latch)
+	public MemoryAccess(Processor containingProcessor, EX_MA_LatchType eX_MA_Latch, MA_RW_LatchType mA_RW_Latch,IF_OF_LatchType iF_OF_Latch)
 	{
 		this.containingProcessor = containingProcessor;
 		this.EX_MA_Latch = eX_MA_Latch;
 		this.MA_RW_Latch = mA_RW_Latch;
+		this.IF_OF_Latch = iF_OF_Latch;
 	}
 	
 	public void performMA()
@@ -33,6 +35,9 @@ public class MemoryAccess {
 					mainMemory.setWord(res, rd);
 					containingProcessor.setMainMemory(mainMemory);
 				}
+			}
+			if(opcode>=23&&opcode<29&&res==-1){
+				IF_OF_Latch.set_stall(true);
 			}
 			MA_RW_Latch.set_rd(rd);
 			MA_RW_Latch.set_res(res);

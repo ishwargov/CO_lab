@@ -57,7 +57,7 @@ public class Simulator {
 	
 	public static void simulate()
 	{	
-		while(simulationComplete == false)
+		while(simulationComplete == false)// && num_inst<100)
 		{	
 			//System.out.println(processor.getRegisterFile().getContentsAsString());
 			processor.getRWUnit().performRW();

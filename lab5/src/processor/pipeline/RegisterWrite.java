@@ -43,7 +43,7 @@ public class RegisterWrite {
 			MA_RW_Latch.setRW_enable(false);
 			IF_EnableLatch.setIF_enable(true);
 		}
-		else{
+		else if(!MA_RW_Latch.get_stall()){
 			IF_EnableLatch.set_stall(true);
 			IF_EnableLatch.setIF_enable(true);
 			IF_OF_Latch.set_stall(true);

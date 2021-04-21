@@ -20,7 +20,7 @@ public class InstructionFetch {
 	}
 	
 	public void performIF()
-	{
+	{	//IF_OF_Latch.set_stall(IFEnable_Latch.get_stall());
 		if(IF_EnableLatch.isIF_enable() && IF_EnableLatch.get_stall())
 		{	
 			System.out.println("IF ");

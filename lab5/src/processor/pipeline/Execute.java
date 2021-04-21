@@ -9,7 +9,7 @@ public class Execute {
 	EX_IF_LatchType EX_IF_Latch;
 	IF_OF_LatchType IF_OF_Latch;
 	
-	public Execute(Processor containingProcessor, OF_EX_LatchType oF_EX_Latch, EX_MA_LatchType eX_MA_Latch, EX_IF_LatchType eX_IF_Latch,IF_OF_Latch iF_OF_Latch)
+	public Execute(Processor containingProcessor, OF_EX_LatchType oF_EX_Latch, EX_MA_LatchType eX_MA_Latch, EX_IF_LatchType eX_IF_Latch,IF_OF_LatchType iF_OF_Latch)
 	{
 		this.containingProcessor = containingProcessor;
 		this.OF_EX_Latch = oF_EX_Latch;
@@ -103,26 +103,44 @@ public class Execute {
 					//res=OF_EX_Latch.get_rd()+OF_EX_Latch.get_imm();
 					OF_EX_Latch.set_stall(false);
 					IF_OF_Latch.set_stall(false);
+					res = -1;
+					System.out.println("branch_stall");
 					containingProcessor.getRegisterFile().setProgramCounter((OF_EX_Latch.get_pc()+OF_EX_Latch.get_rd()+OF_EX_Latch.get_imm())%(1<<22));
 					break;
 				case 25:
 					//System.out.printf("%d %d",OF_EX_Latch.get_rd(),OF_EX_Latch.get_rs1());
 					if(OF_EX_Latch.get_rd()==OF_EX_Latch.get_rs1()){
+						OF_EX_Latch.set_stall(false);
+						IF_OF_Latch.set_stall(false);
+						res = -1;
+						System.out.println("branch_stall");
 						containingProcessor.getRegisterFile().setProgramCounter(OF_EX_Latch.get_pc()+OF_EX_Latch.get_imm());
 					}
 					break;
 				case 26:
 					if(OF_EX_Latch.get_rd()!=OF_EX_Latch.get_rs1()){
+						OF_EX_Latch.set_stall(false);
+						IF_OF_Latch.set_stall(false);
+						res = -1;
+						System.out.println("branch_stall");
 						containingProcessor.getRegisterFile().setProgramCounter(OF_EX_Latch.get_pc()+OF_EX_Latch.get_imm());
 					}
 					break;
 				case 27:
 					if(OF_EX_Latch.get_rd()>OF_EX_Latch.get_rs1()){
+						OF_EX_Latch.set_stall(false);
+						IF_OF_Latch.set_stall(false);
+						res = -1;
+						System.out.println("branch_stall");
 						containingProcessor.getRegisterFile().setProgramCounter(OF_EX_Latch.get_pc()+OF_EX_Latch.get_imm());
 					}
 					break;
 				case 28:
 					if(OF_EX_Latch.get_rd()<OF_EX_Latch.get_rs1()){
+						OF_EX_Latch.set_stall(false);
+						IF_OF_Latch.set_stall(false);
+						res = -1;
+						System.out.println("branch_stall");
 						containingProcessor.getRegisterFile().setProgramCounter(OF_EX_Latch.get_pc()+OF_EX_Latch.get_imm());
 					}
 					break;
