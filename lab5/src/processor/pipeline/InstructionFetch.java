@@ -21,9 +21,9 @@ public class InstructionFetch {
 	
 	public void performIF()
 	{
-		if(IF_EnableLatch.isIF_enable())
+		if(IF_EnableLatch.isIF_enable() && IF_EnableLatch.get_stall())
 		{	
-			//System.out.println("IF ");
+			System.out.println("IF ");
 			int currentPC = containingProcessor.getRegisterFile().getProgramCounter();
 			int newInstruction = containingProcessor.getMainMemory().getWord(currentPC);
 			IF_OF_Latch.setInstruction(newInstruction);

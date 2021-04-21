@@ -18,8 +18,9 @@ public class MemoryAccess {
 	public void performMA()
 	{
 		//TODO
-		if(EX_MA_Latch.isMA_enable()){
-			//System.out.println("MA ");
+		MA_RW_Latch.set_stall(EX_MA_Latch.get_stall());
+		if(EX_MA_Latch.isMA_enable()&&EX_MA_Latch.get_stall()){
+			System.out.println("MA ");
 			int rd=EX_MA_Latch.get_rd();
 			int res=EX_MA_Latch.get_res();
 			int opcode=EX_MA_Latch.get_opcode();

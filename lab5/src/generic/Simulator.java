@@ -10,12 +10,13 @@ public class Simulator {
 		
 	static Processor processor;
 	static boolean simulationComplete;
+	static int num_inst;
 	
 	public static void setupSimulation(String assemblyProgramFile, Processor p) throws FileNotFoundException,IOException
 	{
 		Simulator.processor = p;
 		loadProgram(assemblyProgramFile);
-		
+		num_inst = 0;
 		simulationComplete = false;
 	}
 	
@@ -56,14 +57,13 @@ public class Simulator {
 	
 	public static void simulate()
 	{	
-		int num_inst = 0;
 		while(simulationComplete == false)
 		{	
-			System.out.println(processor.getRegisterFile().getContentsAsString());
-			processor.getIFUnit().performRW();
-			processor.getIFUnit().performMA();
-			processor.getIFUnit().performEX();
-			processor.getIFUnit().performOF();
+			//System.out.println(processor.getRegisterFile().getContentsAsString());
+			processor.getRWUnit().performRW();
+			processor.getMAUnit().performMA();
+			processor.getEXUnit().performEX();
+			processor.getOFUnit().performOF();
 			processor.getIFUnit().performIF();
 			Clock.incrementClock();
 			num_inst++;
@@ -75,7 +75,9 @@ public class Simulator {
 		Statistics.setNumberOfInstructions(num_inst);
 		Statistics.setNumberOfCycles((int)Clock.getCurrentTime());
 	}
-	
+	public static int get_num_inst(){
+		return (num_inst);
+	}
 	public static void setSimulationComplete(boolean value)
 	{
 		simulationComplete = value;

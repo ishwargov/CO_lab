@@ -2,18 +2,27 @@ package processor.pipeline;
 
 public class EX_MA_LatchType {
 	
-	boolean MA_enable;
+	boolean MA_enable,stall;
 	int rd,pc,res,inst;
 	
 	public EX_MA_LatchType()
 	{
 		MA_enable = false;
+		stall = true;
+		rd = -1;
 	}
 
 	public boolean isMA_enable() {
 		return MA_enable;
 	}
 
+	public boolean get_stall() {
+		return stall;
+	}
+	public void set_stall(boolean iF_enable) {
+		stall = iF_enable;
+	}
+	
 	public void setMA_enable(boolean mA_enable) {
 		MA_enable = mA_enable;
 	}

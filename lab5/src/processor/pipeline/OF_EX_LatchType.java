@@ -2,18 +2,25 @@ package processor.pipeline;
 
 public class OF_EX_LatchType {
 	
-	boolean EX_enable;
+	boolean EX_enable,stall;
 	int rs1,rs2,rd,imm,pc,type,opcode;
 	
 	public OF_EX_LatchType()
 	{
 		EX_enable = false;
+		stall = true;
+		rd = -1;
 	}
 
 	public boolean isEX_enable() {
 		return EX_enable;
 	}
-
+	public boolean get_stall() {
+		return stall;
+	}
+	public void set_stall(boolean iF_enable) {
+		stall = iF_enable;
+	}
 	public void setEX_enable(boolean eX_enable) {
 		EX_enable = eX_enable;
 	}

@@ -10,25 +10,21 @@ public class RegisterWrite {
 	MA_RW_LatchType MA_RW_Latch;
 	IF_EnableLatchType IF_EnableLatch;
 	IF_OF_LatchType IF_OF_Latch;
-	OF_EX_LatchType OF_EX_Latch;
-	EX_MA_LatchType EX_MA_Latch;
 	
-	public RegisterWrite(Processor containingProcessor, MA_RW_LatchType mA_RW_Latch, IF_EnableLatchType iF_EnableLatch,IF_OF_LatchType iF_OF_Latch,OF_EX_LatchType oF_EX_Latch,EX_MA_LatchType eX_MA_Latch)
+	public RegisterWrite(Processor containingProcessor, MA_RW_LatchType mA_RW_Latch, IF_EnableLatchType iF_EnableLatch,IF_OF_LatchType iF_OF_Latch)
 	{
 		this.containingProcessor = containingProcessor;
 		this.MA_RW_Latch = mA_RW_Latch;
 		this.IF_EnableLatch = iF_EnableLatch;
 		this.IF_OF_Latch = iF_OF_Latch;
-		this.OF_EX_Latch = oF_EX_Latch;
-		this.EX_MA_Latch = eX_MA_Latch;
 	}
 	
 	public void performRW()
-	{
-		if(MA_RW_Latch.isRW_enable())
+	{	
+		if(MA_RW_Latch.isRW_enable()&&MA_RW_Latch.get_stall())
 		{	
 			//TODO
-			//System.out.println("RW ");
+			System.out.println("RW ");
 			// if instruction being processed is an end instruction, remember to call Simulator.setSimulationComplete(true);
 			int opcode=MA_RW_Latch.get_opcode();
 			int res=MA_RW_Latch.get_res();
@@ -37,7 +33,7 @@ public class RegisterWrite {
 				IF_EnableLatch.setIF_enable(false);
 				MA_RW_Latch.setRW_enable(false);
 				Simulator.setSimulationComplete(true);
-				//System.out.println("Program Ended");
+				System.out.println("Program Ended");
 			}
 			if(opcode<=22){
 				RegisterFile registerFile=containingProcessor.getRegisterFile();
@@ -46,8 +42,11 @@ public class RegisterWrite {
 			}
 			MA_RW_Latch.setRW_enable(false);
 			IF_EnableLatch.setIF_enable(true);
-			
-			IF_OF_Latch.setOF_Enable(true);
+		}
+		else{
+			IF_EnableLatch.set_stall(true);
+			IF_EnableLatch.setIF_enable(true);
+			IF_OF_Latch.set_stall(true);
 		}
 	}
 

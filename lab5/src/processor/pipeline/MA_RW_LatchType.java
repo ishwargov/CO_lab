@@ -2,16 +2,24 @@ package processor.pipeline;
 
 public class MA_RW_LatchType {
 	
-	boolean RW_enable;
+	boolean RW_enable,stall;
 	int res, rd,opcode;
 
 	public MA_RW_LatchType()
 	{
 		RW_enable = false;
+		stall = true;
+		rd = -1;
 	}
 
 	public boolean isRW_enable() {
 		return RW_enable;
+	}
+	public boolean get_stall() {
+		return stall;
+	}
+	public void set_stall(boolean iF_enable) {
+		stall = iF_enable;
 	}
 
 	public void setRW_enable(boolean rW_enable) {
