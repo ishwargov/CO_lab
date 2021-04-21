@@ -52,7 +52,6 @@ public class Simulator {
 		reg.setValue(1,65535);
 		reg.setValue(2,65535);
 		processor.setRegisterFile(reg);
-
 	}
 	
 	public static void simulate()
@@ -67,12 +66,10 @@ public class Simulator {
 			processor.getIFUnit().performIF();
 			Clock.incrementClock();
 			num_inst++;
-			
 		}
 		
 		// TODO
 		// set statistics
-		Statistics.setNumberOfInstructions(num_inst);
 		Statistics.setNumberOfCycles((int)Clock.getCurrentTime());
 	}
 	public static int get_num_inst(){

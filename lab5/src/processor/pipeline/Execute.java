@@ -1,6 +1,7 @@
 package processor.pipeline;
 
 import processor.Processor;
+import generic.Statistics;
 
 public class Execute {
 	Processor containingProcessor;
@@ -23,7 +24,7 @@ public class Execute {
 		//TODO
 		EX_MA_Latch.set_stall(OF_EX_Latch.get_stall());
 		if(OF_EX_Latch.isEX_enable()&&OF_EX_Latch.get_stall()){
-			System.out.println("EX ");
+			//System.out.println("EX ");
 			int opcode=OF_EX_Latch.get_opcode();
 			int res=0;
 			switch(opcode){
@@ -104,7 +105,8 @@ public class Execute {
 					OF_EX_Latch.set_stall(false);
 					IF_OF_Latch.set_stall(false);
 					res = -1;
-					System.out.println("branch_stall");
+					//System.out.println("branch_stall");
+					Statistics.setbranchstalls(Statistics.getbranchstalls()+1);
 					containingProcessor.getRegisterFile().setProgramCounter((OF_EX_Latch.get_pc()+OF_EX_Latch.get_rd()+OF_EX_Latch.get_imm())%(1<<22));
 					break;
 				case 25:
@@ -113,7 +115,8 @@ public class Execute {
 						OF_EX_Latch.set_stall(false);
 						IF_OF_Latch.set_stall(false);
 						res = -1;
-						System.out.println("branch_stall");
+						//System.out.println("branch_stall");
+						Statistics.setbranchstalls(Statistics.getbranchstalls()+1);
 						containingProcessor.getRegisterFile().setProgramCounter(OF_EX_Latch.get_pc()+OF_EX_Latch.get_imm());
 					}
 					break;
@@ -122,7 +125,8 @@ public class Execute {
 						OF_EX_Latch.set_stall(false);
 						IF_OF_Latch.set_stall(false);
 						res = -1;
-						System.out.println("branch_stall");
+						//System.out.println("branch_stall");
+						Statistics.setbranchstalls(Statistics.getbranchstalls()+1);
 						containingProcessor.getRegisterFile().setProgramCounter(OF_EX_Latch.get_pc()+OF_EX_Latch.get_imm());
 					}
 					break;
@@ -131,7 +135,8 @@ public class Execute {
 						OF_EX_Latch.set_stall(false);
 						IF_OF_Latch.set_stall(false);
 						res = -1;
-						System.out.println("branch_stall");
+						//System.out.println("branch_stall");
+						Statistics.setbranchstalls(Statistics.getbranchstalls()+1);
 						containingProcessor.getRegisterFile().setProgramCounter(OF_EX_Latch.get_pc()+OF_EX_Latch.get_imm());
 					}
 					break;
@@ -140,7 +145,8 @@ public class Execute {
 						OF_EX_Latch.set_stall(false);
 						IF_OF_Latch.set_stall(false);
 						res = -1;
-						System.out.println("branch_stall");
+						//System.out.println("branch_stall");
+						Statistics.setbranchstalls(Statistics.getbranchstalls()+1);
 						containingProcessor.getRegisterFile().setProgramCounter(OF_EX_Latch.get_pc()+OF_EX_Latch.get_imm());
 					}
 					break;

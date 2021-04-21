@@ -3,6 +3,7 @@ import processor.pipeline.RegisterFile;
 import org.graalvm.compiler.lir.Opcode;
 
 import generic.Simulator;
+import generic.Statistics;
 import processor.Processor;
 
 public class RegisterWrite {
@@ -24,7 +25,8 @@ public class RegisterWrite {
 		if(MA_RW_Latch.isRW_enable()&&MA_RW_Latch.get_stall())
 		{	
 			//TODO
-			System.out.println("RW ");
+			Statistics.setNumberOfInstructions(Statistics.get_inst()+1);
+			//System.out.println("RW ");
 			// if instruction being processed is an end instruction, remember to call Simulator.setSimulationComplete(true);
 			int opcode=MA_RW_Latch.get_opcode();
 			int res=MA_RW_Latch.get_res();

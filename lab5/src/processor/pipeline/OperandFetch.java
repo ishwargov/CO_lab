@@ -2,6 +2,7 @@ package processor.pipeline;
 
 import processor.Processor;
 import generic.Simulator;
+import generic.Statistics;
 
 public class OperandFetch {
 	Processor containingProcessor;
@@ -27,10 +28,10 @@ public class OperandFetch {
 		if(IF_OF_Latch.isOF_enable() && IF_OF_Latch.get_stall())
 		{
 			//TODO
-			System.out.println("OF ");
+			//System.out.println("OF ");
 			int inst = this.IF_OF_Latch.getInstruction();
 			int opcode = inst>>>27;
-			System.out.printf("%d ",opcode);
+			//System.out.printf("%d ",opcode);
 			int rd1 = EX_MA_Latch.get_rd();
 			int rd2 = MA_RW_Latch.get_rd();
 			int opcode1 = EX_MA_Latch.get_opcode();
@@ -40,7 +41,8 @@ public class OperandFetch {
 			if(!(opcode2>=0&&opcode2<=22))
 				rd2 = -1;
 			if(((inst<<5)>>>27)==rd1 && EX_MA_Latch.get_stall() || ((inst<<5)>>>27)==rd2 && MA_RW_Latch.get_stall() || ((inst<<10)>>>27) == rd1 && EX_MA_Latch.get_stall()  || ((inst<<10)>>>27) == rd2 && MA_RW_Latch.get_stall() ){
-				System.out.println("stalled\n");
+				//System.out.println("stalled\n");
+				Statistics.setdatastalls(Statistics.getdatastalls()+1);
 				IF_EnableLatch.set_stall(false);
 				IF_OF_Latch.set_stall(false);
 				OF_EX_Latch.set_stall(false);
