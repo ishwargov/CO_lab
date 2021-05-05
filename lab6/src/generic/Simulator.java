@@ -11,6 +11,7 @@ public class Simulator {
 	static Processor processor;
 	static boolean simulationComplete;
 	static int num_inst;
+	static EventQueue eventQueue;
 	
 	public static void setupSimulation(String assemblyProgramFile, Processor p) throws FileNotFoundException,IOException
 	{
@@ -18,6 +19,7 @@ public class Simulator {
 		loadProgram(assemblyProgramFile);
 		num_inst = 0;
 		simulationComplete = false;
+		eventQueue = new EventQueue();
 	}
 	
 	static void loadProgram(String assemblyProgramFile) throws FileNotFoundException,IOException
@@ -77,5 +79,9 @@ public class Simulator {
 	public static void setSimulationComplete(boolean value)
 	{
 		simulationComplete = value;
+	}
+	public static EventQueue getEventQueue ()
+	{
+		return eventQueue ;
 	}
 }

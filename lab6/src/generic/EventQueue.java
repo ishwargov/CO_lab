@@ -20,7 +20,7 @@ public class EventQueue {
 	}
 
 	public void processEvents()
-	{
+	{	System.out.println("procesing event");
 		while(queue.isEmpty() == false && queue.peek().getEventTime() <= Clock.getCurrentTime())
 		{
 			Event event = queue.poll();

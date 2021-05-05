@@ -1,6 +1,8 @@
 package processor.memorysystem;
+import generic.*;
+import processor.Clock;
 
-public class MainMemory {
+public class MainMemory implements Element{
 	int[] memory;
 	
 	public MainMemory()
@@ -34,7 +36,7 @@ public class MainMemory {
 	}
 	@Override
 	public void handleEvent(Event e) {
-		if(e.getEventType() == EventType.MemoryRead){
+		if(e.getEventType() == Event.EventType.MemoryRead){
 			MemoryReadEvent event = (MemoryReadEvent) e;
 			Simulator.getEventQueue().addEvent(new MemoryResponseEvent(Clock.getCurrentTime(),this,event.getRequestingElement(),getWord(event.getAddressToReadFrom())));
 		}

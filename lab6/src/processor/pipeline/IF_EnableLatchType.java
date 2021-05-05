@@ -26,5 +26,7 @@ public class IF_EnableLatchType {
 	public void setIF_busy(boolean iF_busy) {
 		IF_busy = iF_busy;
 	}
-
+	public boolean isIF_busy() {
+		return IF_busy;
+	}
 }

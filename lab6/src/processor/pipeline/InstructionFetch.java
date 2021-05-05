@@ -2,7 +2,10 @@ package processor.pipeline;
 
 import processor.Processor;
 import configuration.Configuration;
-public class InstructionFetch {
+import generic.*;
+import processor.Clock;
+
+public class InstructionFetch implements Element{
 	
 	Processor containingProcessor;
 	IF_EnableLatchType IF_EnableLatch;
@@ -32,7 +35,6 @@ public class InstructionFetch {
 			IF_EnableLatch.setIF_busy(true);
 
 
-			int currentPC = containingProcessor.getRegisterFile().getProgramCounter();
 			//int newInstruction = containingProcessor.getMainMemory().getWord(currentPC);
 			//IF_OF_Latch.setInstruction(newInstruction);
 			
@@ -47,6 +49,7 @@ public class InstructionFetch {
 			Simulator.getEventQueue().addEvent(e);
 		}
 		else{
+			int currentPC = containingProcessor.getRegisterFile().getProgramCounter();
 			containingProcessor.getRegisterFile().setProgramCounter(currentPC + 1);
 			MemoryResponseEvent event = (MemoryResponseEvent) e;
 			IF_OF_Latch.setInstruction(event.getValue());
