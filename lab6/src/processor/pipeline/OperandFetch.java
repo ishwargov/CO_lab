@@ -42,8 +42,8 @@ public class OperandFetch {
 			if(!(opcode2>=0&&opcode2<=22))
 				rd2 = -1;
 			if(((inst<<5)>>>27)==rd1 && EX_MA_Latch.get_stall()|| ((inst<<5)>>>27)==rd2 && MA_RW_Latch.get_stall() || ((inst<<10)>>>27) == rd1 && EX_MA_Latch.get_stall()  || ((inst<<10)>>>27) == rd2 && MA_RW_Latch.get_stall() ){
-				System.out.printf("rd1 = %d, rd2 = %d 1:%b,2:%b,3:%b,4:%b \n",rd1,rd2,((inst<<5)>>>27)==rd1 && EX_MA_Latch.get_stall(), ((inst<<5)>>>27)==rd2 && MA_RW_Latch.get_stall() , ((inst<<10)>>>27) == rd1 && EX_MA_Latch.get_stall(),((inst<<10)>>>27) == rd2 && MA_RW_Latch.get_stall());
-				System.out.println("stalled\n");
+				//System.out.printf("rd1 = %d, rd2 = %d 1:%b,2:%b,3:%b,4:%b \n",rd1,rd2,((inst<<5)>>>27)==rd1 && EX_MA_Latch.get_stall(), ((inst<<5)>>>27)==rd2 && MA_RW_Latch.get_stall() , ((inst<<10)>>>27) == rd1 && EX_MA_Latch.get_stall(),((inst<<10)>>>27) == rd2 && MA_RW_Latch.get_stall());
+				System.out.println("data stalled\n");
 				Statistics.setdatastalls(Statistics.getdatastalls()+1);
 				IF_EnableLatch.set_stall(false);
 				IF_OF_Latch.set_stall(false);

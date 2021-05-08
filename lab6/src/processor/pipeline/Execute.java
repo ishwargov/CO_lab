@@ -2,13 +2,17 @@ package processor.pipeline;
 
 import processor.Processor;
 import generic.*;
+import configuration.Configuration;
+import processor.Clock;
 
-public class Execute {
+public class Execute implements Element {
 	Processor containingProcessor;
 	OF_EX_LatchType OF_EX_Latch;
 	EX_MA_LatchType EX_MA_Latch;
 	EX_IF_LatchType EX_IF_Latch;
 	IF_OF_LatchType IF_OF_Latch;
+	int res,rd,opcode;
+	long latency;
 	
 	public Execute(Processor containingProcessor, OF_EX_LatchType oF_EX_Latch, EX_MA_LatchType eX_MA_Latch, EX_IF_LatchType eX_IF_Latch,IF_OF_LatchType iF_OF_Latch)
 	{
@@ -17,6 +21,7 @@ public class Execute {
 		this.EX_MA_Latch = eX_MA_Latch;
 		this.EX_IF_Latch = eX_IF_Latch;
 		this.IF_OF_Latch = iF_OF_Latch;
+		res = 0;
 	}
 	
 	public void performEX()
@@ -25,8 +30,12 @@ public class Execute {
 		EX_MA_Latch.set_stall(OF_EX_Latch.get_stall());
 		OF_EX_Latch.setEX_busy(EX_MA_Latch.isMA_busy());
 		if(OF_EX_Latch.isEX_enable()&&OF_EX_Latch.get_stall()){
-			int opcode=OF_EX_Latch.get_opcode();
-			int res=0;
+
+			if(OF_EX_Latch.isEX_busy()){
+				return;
+			}
+
+			opcode=OF_EX_Latch.get_opcode();
 			System.out.printf("EX %d\n",opcode);
 			switch(opcode){
 				case 0:
@@ -160,15 +169,28 @@ public class Execute {
 					//end
 					break;			
 			}
-			EX_MA_Latch.set_res(res);
+			rd = OF_EX_Latch.get_rd();
+			if(opcode<22){
+				latency = Configuration.ALU_latency;
+				if(opcode>=4&&opcode<=5){
+					latency = Configuration.multiplier_latency;
+				}
+				else if(opcode>=6&&opcode<=7){
+					latency = Configuration.divider_latency;
+				}
+				Simulator.getEventQueue().addEvent(new ExecutionCompleteEvent(Clock.getCurrentTime()+latency,this,this));
+				OF_EX_Latch.setEX_busy(true);
+				return;
+			}
 			if(opcode==23){
 				EX_MA_Latch.set_rd(OF_EX_Latch.get_rs1());
 			}
-			else{	
-				EX_MA_Latch.set_rd(OF_EX_Latch.get_rd());
+			else{
+				EX_MA_Latch.set_rd(rd);
 			}
+
 			EX_MA_Latch.set_pc(OF_EX_Latch.get_pc());
-			EX_MA_Latch.set_opcode(opcode);
+
 			if(opcode>=24 && opcode<=28){
 				EX_IF_Latch.setIF_enable(true);
 				EX_MA_Latch.setMA_enable(true);
@@ -176,9 +198,31 @@ public class Execute {
 			else{
 				EX_MA_Latch.setMA_enable(true);
 			}
+			EX_MA_Latch.set_res(res);
+			EX_MA_Latch.set_opcode(opcode);
+
 			OF_EX_Latch.setEX_enable(false);
 		}
 
+	}
+	@Override
+	public void handleEvent(Event e) {
+		if(EX_MA_Latch.isMA_busy()){
+			e.setEventTime(Clock.getCurrentTime() + 1);
+			Simulator.getEventQueue().addEvent(e);
+		}
+		else{
+			ExecutionCompleteEvent event = (ExecutionCompleteEvent) e;
+			System.out.printf("ALU event done \n");
+
+			EX_MA_Latch.set_res(res);
+			EX_MA_Latch.set_rd(rd);
+			EX_MA_Latch.set_opcode(opcode);
+
+			EX_MA_Latch.setMA_enable(true);
+			OF_EX_Latch.setEX_enable(false);
+			OF_EX_Latch.setEX_busy(false);
+		}
 	}
 
 }
