@@ -23,14 +23,15 @@ public class OperandFetch {
 	}
 	
 	public void performOF()
-	{	
-		OF_EX_Latch.set_stall(IF_OF_Latch.get_stall());
+	{	if(!IF_EnableLatch.isIF_busy())
+			OF_EX_Latch.set_stall(IF_OF_Latch.get_stall());
+		IF_OF_Latch.setOF_busy(OF_EX_Latch.isEX_busy());
 		if(IF_OF_Latch.isOF_enable() && IF_OF_Latch.get_stall())
 		{
 			//TODO
-			//System.out.println("OF ");
 			int inst = this.IF_OF_Latch.getInstruction();
 			int opcode = inst>>>27;
+			System.out.printf("OF %d\n",opcode);
 			//System.out.printf("%d ",opcode);
 			int rd1 = EX_MA_Latch.get_rd();
 			int rd2 = MA_RW_Latch.get_rd();
@@ -40,8 +41,9 @@ public class OperandFetch {
 				rd1 = -1;
 			if(!(opcode2>=0&&opcode2<=22))
 				rd2 = -1;
-			if(((inst<<5)>>>27)==rd1 && EX_MA_Latch.get_stall() || ((inst<<5)>>>27)==rd2 && MA_RW_Latch.get_stall() || ((inst<<10)>>>27) == rd1 && EX_MA_Latch.get_stall()  || ((inst<<10)>>>27) == rd2 && MA_RW_Latch.get_stall() ){
-				//System.out.println("stalled\n");
+			if(((inst<<5)>>>27)==rd1 && EX_MA_Latch.get_stall()|| ((inst<<5)>>>27)==rd2 && MA_RW_Latch.get_stall() || ((inst<<10)>>>27) == rd1 && EX_MA_Latch.get_stall()  || ((inst<<10)>>>27) == rd2 && MA_RW_Latch.get_stall() ){
+				System.out.printf("rd1 = %d, rd2 = %d 1:%b,2:%b,3:%b,4:%b \n",rd1,rd2,((inst<<5)>>>27)==rd1 && EX_MA_Latch.get_stall(), ((inst<<5)>>>27)==rd2 && MA_RW_Latch.get_stall() , ((inst<<10)>>>27) == rd1 && EX_MA_Latch.get_stall(),((inst<<10)>>>27) == rd2 && MA_RW_Latch.get_stall());
+				System.out.println("stalled\n");
 				Statistics.setdatastalls(Statistics.getdatastalls()+1);
 				IF_EnableLatch.set_stall(false);
 				IF_OF_Latch.set_stall(false);

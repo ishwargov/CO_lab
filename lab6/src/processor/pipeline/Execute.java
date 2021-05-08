@@ -1,7 +1,7 @@
 package processor.pipeline;
 
 import processor.Processor;
-import generic.Statistics;
+import generic.*;
 
 public class Execute {
 	Processor containingProcessor;
@@ -23,10 +23,11 @@ public class Execute {
 	{
 		//TODO
 		EX_MA_Latch.set_stall(OF_EX_Latch.get_stall());
+		OF_EX_Latch.setEX_busy(EX_MA_Latch.isMA_busy());
 		if(OF_EX_Latch.isEX_enable()&&OF_EX_Latch.get_stall()){
-			//System.out.println("EX ");
 			int opcode=OF_EX_Latch.get_opcode();
 			int res=0;
+			System.out.printf("EX %d\n",opcode);
 			switch(opcode){
 				case 0:
 					res=OF_EX_Latch.get_rs1()+OF_EX_Latch.get_rs2();
@@ -105,6 +106,7 @@ public class Execute {
 					OF_EX_Latch.set_stall(false);
 					IF_OF_Latch.set_stall(false);
 					res = -1;
+					Simulator.getEventQueue().delete_IF();
 					//System.out.println("branch_stall");
 					Statistics.setbranchstalls(Statistics.getbranchstalls()+1);
 					containingProcessor.getRegisterFile().setProgramCounter((OF_EX_Latch.get_pc()+OF_EX_Latch.get_rd()+OF_EX_Latch.get_imm())%(1<<22));
@@ -114,6 +116,7 @@ public class Execute {
 					if(OF_EX_Latch.get_rd()==OF_EX_Latch.get_rs1()){
 						OF_EX_Latch.set_stall(false);
 						IF_OF_Latch.set_stall(false);
+						Simulator.getEventQueue().delete_IF();
 						res = -1;
 						//System.out.println("branch_stall");
 						Statistics.setbranchstalls(Statistics.getbranchstalls()+1);
@@ -124,6 +127,7 @@ public class Execute {
 					if(OF_EX_Latch.get_rd()!=OF_EX_Latch.get_rs1()){
 						OF_EX_Latch.set_stall(false);
 						IF_OF_Latch.set_stall(false);
+						Simulator.getEventQueue().delete_IF();
 						res = -1;
 						//System.out.println("branch_stall");
 						Statistics.setbranchstalls(Statistics.getbranchstalls()+1);
@@ -134,6 +138,7 @@ public class Execute {
 					if(OF_EX_Latch.get_rd()>OF_EX_Latch.get_rs1()){
 						OF_EX_Latch.set_stall(false);
 						IF_OF_Latch.set_stall(false);
+						Simulator.getEventQueue().delete_IF();
 						res = -1;
 						//System.out.println("branch_stall");
 						Statistics.setbranchstalls(Statistics.getbranchstalls()+1);
@@ -144,6 +149,7 @@ public class Execute {
 					if(OF_EX_Latch.get_rd()<OF_EX_Latch.get_rs1()){
 						OF_EX_Latch.set_stall(false);
 						IF_OF_Latch.set_stall(false);
+						Simulator.getEventQueue().delete_IF();
 						res = -1;
 						//System.out.println("branch_stall");
 						Statistics.setbranchstalls(Statistics.getbranchstalls()+1);
@@ -172,6 +178,7 @@ public class Execute {
 			}
 			OF_EX_Latch.setEX_enable(false);
 		}
+
 	}
 
 }

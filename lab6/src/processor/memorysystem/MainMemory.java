@@ -38,7 +38,16 @@ public class MainMemory implements Element{
 	public void handleEvent(Event e) {
 		if(e.getEventType() == Event.EventType.MemoryRead){
 			MemoryReadEvent event = (MemoryReadEvent) e;
-			Simulator.getEventQueue().addEvent(new MemoryResponseEvent(Clock.getCurrentTime(),this,event.getRequestingElement(),getWord(event.getAddressToReadFrom())));
+			MemoryResponseEvent MRE = new MemoryResponseEvent(Clock.getCurrentTime(),this,event.getRequestingElement(),getWord(event.getAddressToReadFrom()));
+			MRE.setValue2(0);
+			Simulator.getEventQueue().addEvent(MRE);
+		}
+		else if(e.getEventType() == Event.EventType.MemoryWrite){
+			MemoryWriteEvent event = (MemoryWriteEvent) e;
+			setWord(event.getAddressToWriteTo(),event.getValue());
+			MemoryResponseEvent MRE = new MemoryResponseEvent(Clock.getCurrentTime(),this,event.getRequestingElement(),0);
+			MRE.setValue2(1);
+			Simulator.getEventQueue().addEvent(MRE);
 		}
 	}
 }

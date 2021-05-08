@@ -2,12 +2,13 @@ package processor.pipeline;
 
 public class EX_MA_LatchType {
 	
-	boolean MA_enable,stall;
+	boolean MA_enable,stall,MA_busy;
 	int rd,pc,res,inst;
 	
 	public EX_MA_LatchType()
 	{
 		MA_enable = false;
+		MA_busy = false;
 		stall = true;
 		rd = -1;
 	}
@@ -49,5 +50,12 @@ public class EX_MA_LatchType {
 	}
 	public int get_opcode(){
 		return this.inst;
+	}
+
+	public void setMA_busy(boolean mA_busy) {
+		MA_busy = mA_busy;
+	}
+	public boolean isMA_busy() {
+		return MA_busy;
 	}
 }

@@ -8,6 +8,7 @@ public class IF_OF_LatchType {
 	public IF_OF_LatchType()
 	{
 		OF_enable = false;
+		OF_busy = false;
 		stall = true;
 	}
 

@@ -26,11 +26,11 @@ public class RegisterWrite {
 		{	
 			//TODO
 			Statistics.setNumberOfInstructions(Statistics.get_inst()+1);
-			//System.out.println("RW ");
 			// if instruction being processed is an end instruction, remember to call Simulator.setSimulationComplete(true);
 			int opcode=MA_RW_Latch.get_opcode();
 			int res=MA_RW_Latch.get_res();
 			int rd=MA_RW_Latch.get_rd();
+			System.out.printf("RW %d\n",opcode);
 			if(opcode==29){
 				IF_EnableLatch.setIF_enable(false);
 				MA_RW_Latch.setRW_enable(false);
@@ -43,6 +43,7 @@ public class RegisterWrite {
 				containingProcessor.setRegisterFile(registerFile);
 			}
 			MA_RW_Latch.setRW_enable(false);
+			MA_RW_Latch.set_rd(-2);
 			IF_EnableLatch.setIF_enable(true);
 		}
 		else if(!MA_RW_Latch.get_stall()){
@@ -50,6 +51,8 @@ public class RegisterWrite {
 			IF_EnableLatch.setIF_enable(true);
 			IF_OF_Latch.set_stall(true);
 		}
+		
+		IF_EnableLatch.setIF_enable(true);
 	}
 
 }
