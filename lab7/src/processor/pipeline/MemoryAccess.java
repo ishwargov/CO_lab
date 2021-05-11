@@ -25,14 +25,18 @@ public class MemoryAccess implements Element{
 	public void performMA()
 	{
 		//TODO
+
 		MA_RW_Latch.set_stall(EX_MA_Latch.get_stall());
+		if(EX_MA_Latch.get_stall()==false){
+			System.out.printf("MA stalled %d\n",EX_MA_Latch.get_opcode());
+		}	
 		if(EX_MA_Latch.isMA_enable()&&EX_MA_Latch.get_stall()){
 			//System.out.println("MA ");
 			if(EX_MA_Latch.isMA_busy())
 			{
 				return;
 			}
-			//System.out.println("MA not busy");
+			System.out.println("MA not busy");
 			rd=EX_MA_Latch.get_rd();
 			res=EX_MA_Latch.get_res();
 			opcode=EX_MA_Latch.get_opcode();
@@ -41,13 +45,13 @@ public class MemoryAccess implements Element{
 				MainMemory mainMemory=containingProcessor.getMainMemory();
 				if(opcode==22){
 					System.out.printf("Load MA addr : %d\n",res);
-					Simulator.getEventQueue().addEvent(new MemoryReadEvent(Clock.getCurrentTime() + Configuration.mainMemoryLatency,this,containingProcessor.getMainMemory(),res));
+					Simulator.getEventQueue().addEvent(new MemoryReadEvent(Clock.getCurrentTime() + Configuration.L1d_latency,this,containingProcessor.getL1d(),res));
 					EX_MA_Latch.setMA_busy(true);
 					return;
 				}
 				if(opcode==23){
 					System.out.printf("store %d  %d\n",res,rd);
-					Simulator.getEventQueue().addEvent(new MemoryWriteEvent(Clock.getCurrentTime() + Configuration.mainMemoryLatency ,this,containingProcessor.getMainMemory(),res,rd));
+					Simulator.getEventQueue().addEvent(new MemoryWriteEvent(Clock.getCurrentTime() + Configuration.L1d_latency,this,containingProcessor.getL1d(),res,rd));
 					EX_MA_Latch.setMA_busy(true);
 					return;
 				}
@@ -73,7 +77,7 @@ public class MemoryAccess implements Element{
 		else{*/
 			MemoryResponseEvent event = (MemoryResponseEvent) e;
 
-			//System.out.println("MA event done");
+			System.out.println("MA event done");
 			MA_RW_Latch.set_rd(rd);
 			EX_MA_Latch.set_rd(-2);
 			MA_RW_Latch.set_res(event.getValue());

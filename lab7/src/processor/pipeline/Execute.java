@@ -13,6 +13,7 @@ public class Execute implements Element {
 	IF_OF_LatchType IF_OF_Latch;
 	int res,rd,opcode;
 	long latency;
+	boolean busyEX;
 	
 	public Execute(Processor containingProcessor, OF_EX_LatchType oF_EX_Latch, EX_MA_LatchType eX_MA_Latch, EX_IF_LatchType eX_IF_Latch,IF_OF_LatchType iF_OF_Latch)
 	{
@@ -22,13 +23,19 @@ public class Execute implements Element {
 		this.EX_IF_Latch = eX_IF_Latch;
 		this.IF_OF_Latch = iF_OF_Latch;
 		res = 0;
+		busyEX = false;
 	}
 	
 	public void performEX()
 	{
 		//TODO
-		EX_MA_Latch.set_stall(OF_EX_Latch.get_stall());
-		OF_EX_Latch.setEX_busy(EX_MA_Latch.isMA_busy());
+		if(!EX_MA_Latch.isMA_busy())
+			EX_MA_Latch.set_stall(OF_EX_Latch.get_stall());
+		if(!busyEX)
+			OF_EX_Latch.setEX_busy(EX_MA_Latch.isMA_busy());
+		if(OF_EX_Latch.get_stall()==false){
+			System.out.printf("EX stalled %d %d\n",OF_EX_Latch.get_opcode(),OF_EX_Latch.get_rd());
+		}		
 		if(OF_EX_Latch.isEX_enable()&&OF_EX_Latch.get_stall()){
 
 			if(OF_EX_Latch.isEX_busy()){
@@ -36,7 +43,7 @@ public class Execute implements Element {
 			}
 
 			opcode=OF_EX_Latch.get_opcode();
-			//System.out.printf("EX %d\n",opcode);
+			System.out.printf("EX %d\n",opcode);
 			switch(opcode){
 				case 0:
 					res=OF_EX_Latch.get_rs1()+OF_EX_Latch.get_rs2();
@@ -180,6 +187,7 @@ public class Execute implements Element {
 				}
 				Simulator.getEventQueue().addEvent(new ExecutionCompleteEvent(Clock.getCurrentTime()+latency,this,this));
 				OF_EX_Latch.setEX_busy(true);
+				busyEX = true;
 				return;
 			}
 			if(opcode==23){
@@ -191,17 +199,12 @@ public class Execute implements Element {
 
 			EX_MA_Latch.set_pc(OF_EX_Latch.get_pc());
 
-			if(opcode>=24 && opcode<=28){
-				EX_IF_Latch.setIF_enable(true);
-				EX_MA_Latch.setMA_enable(true);
-			}
-			else{
-				EX_MA_Latch.setMA_enable(true);
-			}
+			EX_MA_Latch.setMA_enable(true);
 			EX_MA_Latch.set_res(res);
 			EX_MA_Latch.set_opcode(opcode);
 
 			OF_EX_Latch.setEX_enable(false);
+			
 		}
 
 	}
@@ -213,12 +216,13 @@ public class Execute implements Element {
 		}
 		else{
 			ExecutionCompleteEvent event = (ExecutionCompleteEvent) e;
-			//System.out.printf("ALU event done \n");
+			System.out.printf("ALU event done \n");
 
 			EX_MA_Latch.set_res(res);
 			EX_MA_Latch.set_rd(rd);
 			EX_MA_Latch.set_opcode(opcode);
 
+			busyEX = false;
 			EX_MA_Latch.setMA_enable(true);
 			OF_EX_Latch.setEX_enable(false);
 			OF_EX_Latch.setEX_busy(false);

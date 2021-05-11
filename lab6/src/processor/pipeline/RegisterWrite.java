@@ -25,9 +25,9 @@ public class RegisterWrite {
 		if(MA_RW_Latch.isRW_enable()&&MA_RW_Latch.get_stall())
 		{	
 			//TODO
+			int opcode=MA_RW_Latch.get_opcode();
 			Statistics.setNumberOfInstructions(Statistics.get_inst()+1);
 			// if instruction being processed is an end instruction, remember to call Simulator.setSimulationComplete(true);
-			int opcode=MA_RW_Latch.get_opcode();
 			int res=MA_RW_Latch.get_res();
 			int rd=MA_RW_Latch.get_rd();
 			System.out.printf("RW %d\n",opcode);
@@ -45,6 +45,8 @@ public class RegisterWrite {
 			MA_RW_Latch.setRW_enable(false);
 			MA_RW_Latch.set_rd(-2);
 			IF_EnableLatch.setIF_enable(true);
+			//System.out.printf("opcode : %d\n",opcode);
+			//containingProcessor.printState(0,8);
 		}
 		else if(!MA_RW_Latch.get_stall()){
 			IF_EnableLatch.set_stall(true);

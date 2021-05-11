@@ -38,6 +38,11 @@ public class EventQueue {
 				((InstructionFetch)e.requestingElement).IF_EnableLatch.setIF_busy(false);
 				itr.remove();
 			}
+			if(e.processingElement instanceof InstructionFetch) {
+				((InstructionFetch)e.processingElement).IF_EnableLatch.setIF_busy(false);
+				itr.remove();
+			}
+			
 		}
 	}
 }

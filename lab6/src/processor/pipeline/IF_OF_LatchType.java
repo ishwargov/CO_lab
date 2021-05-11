@@ -2,7 +2,7 @@ package processor.pipeline;
 
 public class IF_OF_LatchType {
 	
-	boolean OF_enable,stall,OF_busy;
+	boolean OF_enable,stall,OF_busy,completed;
 	int instruction;
 	
 	public IF_OF_LatchType()
@@ -10,6 +10,7 @@ public class IF_OF_LatchType {
 		OF_enable = false;
 		OF_busy = false;
 		stall = true;
+		completed = true;
 	}
 
 	public boolean isOF_enable() {
@@ -40,5 +41,10 @@ public class IF_OF_LatchType {
 	public boolean isOF_busy() {
 		return OF_busy;
 	}
-
+	public boolean get_completed() {
+		return completed;
+	}
+	public void set_completed(boolean compl) {
+		this.completed = compl;
+	}
 }

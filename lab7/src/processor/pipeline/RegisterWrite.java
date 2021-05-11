@@ -30,7 +30,7 @@ public class RegisterWrite {
 			// if instruction being processed is an end instruction, remember to call Simulator.setSimulationComplete(true);
 			int res=MA_RW_Latch.get_res();
 			int rd=MA_RW_Latch.get_rd();
-			//System.out.printf("RW %d\n",opcode);
+			System.out.printf("RW %d\n",opcode);
 			if(opcode==29){
 				IF_EnableLatch.setIF_enable(false);
 				MA_RW_Latch.setRW_enable(false);

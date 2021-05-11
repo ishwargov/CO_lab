@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.Iterator;
 import processor.pipeline.InstructionFetch;
+import processor.memorysystem.Cache;
 
 import processor.Clock;
 
@@ -37,7 +38,28 @@ public class EventQueue {
 			if(e.requestingElement instanceof InstructionFetch) {
 				((InstructionFetch)e.requestingElement).IF_EnableLatch.setIF_busy(false);
 				itr.remove();
+				continue;
 			}
+			if(e.processingElement instanceof InstructionFetch) {
+				((InstructionFetch)e.processingElement).IF_EnableLatch.setIF_busy(false);
+				itr.remove();
+				continue;
+			}
+			if(e.processingElement instanceof Cache) {
+				if(((Cache)e.processingElement).retElement instanceof InstructionFetch){
+					((InstructionFetch)((Cache)e.processingElement).retElement).IF_EnableLatch.setIF_busy(false);
+					itr.remove();
+					continue;
+				}
+			}
+			if(e.requestingElement instanceof Cache) {
+				if(((Cache)e.requestingElement).retElement instanceof InstructionFetch){
+					((InstructionFetch)((Cache)e.requestingElement).retElement).IF_EnableLatch.setIF_busy(false);
+					itr.remove();
+					continue;
+				}
+			}
+			
 		}
 	}
 }

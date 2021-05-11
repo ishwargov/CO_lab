@@ -11,6 +11,7 @@ public class OperandFetch {
 	IF_EnableLatchType IF_EnableLatch;
 	EX_MA_LatchType EX_MA_Latch;
 	MA_RW_LatchType MA_RW_Latch;
+
 	
 	public OperandFetch(Processor containingProcessor, IF_OF_LatchType iF_OF_Latch, OF_EX_LatchType oF_EX_Latch,IF_EnableLatchType iF_EnableLatch,EX_MA_LatchType eX_MA_Latch,MA_RW_LatchType mA_RW_Latch)
 	{
@@ -23,12 +24,15 @@ public class OperandFetch {
 	}
 	
 	public void performOF()
-	{	if(!IF_EnableLatch.isIF_busy())
-			OF_EX_Latch.set_stall(IF_OF_Latch.get_stall());
+	{	
+		OF_EX_Latch.set_stall(IF_OF_Latch.get_stall());
 		IF_OF_Latch.setOF_busy(OF_EX_Latch.isEX_busy());
 		if(IF_OF_Latch.isOF_enable() && IF_OF_Latch.get_stall())
 		{
 			//TODO
+			if(IF_OF_Latch.isOF_busy()){
+				return;
+			}
 			int inst = this.IF_OF_Latch.getInstruction();
 			int opcode = inst>>>27;
 			System.out.printf("OF %d\n",opcode);
@@ -41,8 +45,9 @@ public class OperandFetch {
 				rd1 = -1;
 			if(!(opcode2>=0&&opcode2<=22))
 				rd2 = -1;
-			if(((inst<<5)>>>27)==rd1 && EX_MA_Latch.get_stall()|| ((inst<<5)>>>27)==rd2 && MA_RW_Latch.get_stall() || ((inst<<10)>>>27) == rd1 && EX_MA_Latch.get_stall()  || ((inst<<10)>>>27) == rd2 && MA_RW_Latch.get_stall() ){
+			if(((inst<<5)>>>27)==rd1 || ((inst<<5)>>>27)==rd2  || ((inst<<10)>>>27) == rd1 || ((inst<<10)>>>27) == rd2){
 				//System.out.printf("rd1 = %d, rd2 = %d 1:%b,2:%b,3:%b,4:%b \n",rd1,rd2,((inst<<5)>>>27)==rd1 && EX_MA_Latch.get_stall(), ((inst<<5)>>>27)==rd2 && MA_RW_Latch.get_stall() , ((inst<<10)>>>27) == rd1 && EX_MA_Latch.get_stall(),((inst<<10)>>>27) == rd2 && MA_RW_Latch.get_stall());
+				System.out.printf("rd_MA = %d, rd_RW = %d rs1 : %d,rs2 : %d \n",rd1,rd2,(inst<<5)>>>27,(inst<<10)>>>27);
 				System.out.println("data stalled\n");
 				Statistics.setdatastalls(Statistics.getdatastalls()+1);
 				IF_EnableLatch.set_stall(false);
@@ -89,6 +94,7 @@ public class OperandFetch {
 				}
 				OF_EX_Latch.set_pc(containingProcessor.getRegisterFile().getProgramCounter()-1);
 				IF_OF_Latch.setOF_enable(false);
+				IF_OF_Latch.set_completed(true);
 				OF_EX_Latch.setEX_enable(true);
 			}
 		}

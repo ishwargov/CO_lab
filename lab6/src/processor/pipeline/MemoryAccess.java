@@ -25,7 +25,11 @@ public class MemoryAccess implements Element{
 	public void performMA()
 	{
 		//TODO
+
 		MA_RW_Latch.set_stall(EX_MA_Latch.get_stall());
+		if(EX_MA_Latch.get_stall()==false){
+			System.out.printf("MA stalled %d\n",EX_MA_Latch.get_opcode());
+		}	
 		if(EX_MA_Latch.isMA_enable()&&EX_MA_Latch.get_stall()){
 			//System.out.println("MA ");
 			if(EX_MA_Latch.isMA_busy())
@@ -40,11 +44,13 @@ public class MemoryAccess implements Element{
 			if(opcode==22||opcode==23){
 				MainMemory mainMemory=containingProcessor.getMainMemory();
 				if(opcode==22){
-					Simulator.getEventQueue().addEvent(new MemoryReadEvent(Clock.getCurrentTime() + Configuration.mainMemoryLatency ,this,containingProcessor.getMainMemory(),res));
+					System.out.printf("Load MA addr : %d\n",res);
+					Simulator.getEventQueue().addEvent(new MemoryReadEvent(Clock.getCurrentTime() + Configuration.mainMemoryLatency,this,containingProcessor.getMainMemory(),res));
 					EX_MA_Latch.setMA_busy(true);
 					return;
 				}
 				if(opcode==23){
+					System.out.printf("store %d  %d\n",res,rd);
 					Simulator.getEventQueue().addEvent(new MemoryWriteEvent(Clock.getCurrentTime() + Configuration.mainMemoryLatency ,this,containingProcessor.getMainMemory(),res,rd));
 					EX_MA_Latch.setMA_busy(true);
 					return;

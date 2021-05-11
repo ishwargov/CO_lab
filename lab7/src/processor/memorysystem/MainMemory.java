@@ -51,3 +51,8 @@ public class MainMemory implements Element{
 		}
 	}
 }
+//IF L1i
+//*L1i MM
+//*L1i IF
+//MM L1i
+//L1i IF

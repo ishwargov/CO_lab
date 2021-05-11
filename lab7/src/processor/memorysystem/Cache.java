@@ -11,7 +11,7 @@ public class Cache implements Element{
     long latency;
     CacheLine[] cacheq;
     Processor containingProcessor;
-    Element retElement;
+    public Element retElement;
 
     public Cache(int size,long latency,Processor p,Element el){
         this.size = size;
