@@ -1,4 +1,4 @@
 Number of instructions executed = 87
-Number of cycles taken = 3742
-Number of data hazard stalls = 0
+Number of cycles taken = 224
+Number of data hazard stalls = 1
 Number of branch hazard stalls = 11
